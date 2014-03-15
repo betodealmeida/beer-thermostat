@@ -14,6 +14,7 @@ DallasTemperature sensors(&oneWire);
 
 // LCD init
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int backLight = 13;
 
 // PID relay control
 #define RELAY_PIN 7
@@ -21,7 +22,7 @@ double setPoint;  // desired temperature
 double input;     // current temperature
 double output;    // for PID
 PID myPID(&input, &output, &setPoint, 2, 5, 1, REVERSE);
-int windowSize = 5*60*1000;  // 5 minutes in ms
+int windowSize = 1000;  // 5 minutes in ms
 unsigned long windowStartTime;
 
 // pot
@@ -31,6 +32,8 @@ double maxTemperature = 22.;
 
 void setup() {
     lcd.begin(16, 2);
+    pinMode(backLight, OUTPUT);
+    digitalWrite(backLight, HIGH);
     sensors.begin();
     windowStartTime = millis();
 
@@ -101,7 +104,7 @@ void draw() {
     lcd.print("C");
 
     // append "ale" or "lager"
-    if ((setPoint >= 7) && (setPoint <= 9)) {
+    if ((setPoint >= 7) && (setPoint <= 9+1)) {
         lcd.print("  (lager)");
     } else if ((setPoint >= 10) && (setPoint < 13+1)) {
         lcd.print(" (lager)");
