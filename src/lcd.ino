@@ -22,7 +22,7 @@ double setPoint;  // desired temperature
 double input;     // current temperature
 double output;    // for PID
 PID myPID(&input, &output, &setPoint, 2, 5, 1, REVERSE);
-int windowSize = 1000;  // 5 minutes in ms
+int windowSize = 5*60*1000;  // 5 minutes in ms
 unsigned long windowStartTime;
 
 // pot
