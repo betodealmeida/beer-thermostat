@@ -23,13 +23,12 @@ double input;     // current temperature
 double output;    // for PID
 PID myPID(&input, &output, &setPoint, 2, 5, 1, REVERSE);
 int windowSize = 5*60*1000;  // 5 minutes in ms
-int onThreshold = 1*30*1000;   // 1 minute in ms
 unsigned long windowStartTime;
 
 // pot
 #define POT_PIN A0
-double minTemperature = 7.;
-double maxTemperature = 22.;
+double minTemperature = 3.;
+double maxTemperature = 13.;
 
 void setup() {
     lcd.begin(16, 2);
@@ -78,9 +77,7 @@ void loop() {
     }
     if (output > now - windowStartTime) {
         // precaution for fridge
-        if (output > onThreshold) {
-            digitalWrite(RELAY_PIN, HIGH);
-        }
+        digitalWrite(RELAY_PIN, HIGH);
         lcd.setCursor(15, 0);
         lcd.print("*");
     } else {
